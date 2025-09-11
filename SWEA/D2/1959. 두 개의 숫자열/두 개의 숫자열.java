@@ -4,44 +4,43 @@ import java.io.FilterOutputStream;
 import java.util.*;
 
 public class Solution {
+    static int[] a,b;
     public static void main(String[] args) throws FileNotFoundException {
-
+  
         Scanner sc = new Scanner(System.in);
         int T = sc.nextInt();
         for(int l = 1 ; l <= T; l ++) {
+            int max = 0;
             int n = sc.nextInt();
             int m = sc.nextInt();
-            int[] a = new int[n];
-            int[] b = new int[m];
-            for (int i = 0; i < n; i++) {
-                a[i] = sc.nextInt();
+            a = new int[n];
+            b = new int[m];
+            for(int i = 0 ; i < n ; i ++) a[i] = sc.nextInt();
+            for(int i = 0 ; i < m ; i ++) b[i] = sc.nextInt();
+
+            //짧은 배열은 무조건 a다
+            if (n > m){
+                int [] tempArr = a;
+                a = b;
+                b = tempArr;
+
+                int temp = n;
+                n = m;
+                m = temp;
             }
-            for (int i = 0; i < m; i++) {
-                b[i] = sc.nextInt();
-            }
-            int max = 0;
-            int big = Math.max(n,m);
-            int small = Math.min(n,m);
-            //3번 반복
-            for (int z = 0; z <= big - small; z++) {
-                int[] arr = new int[small];
-                for (int i = 0; i < small; i++) {
-                    if (big == m){
-                    int num = a[i] * b[i + z];
-                    arr[i] = num;
-                    }else{
-                        int num = a[i+z] * b[i];
-                        arr[i] = num;
-                    }
-                }
+
+
+            for(int z = 0 ; z <= m - n; z ++){
                 int total = 0;
-                for (int i : arr) {
-                    total += i;
+                for(int i = 0 ; i < n ; i ++){
+                    total += a[i] * b[i+z];
                 }
-                max = Math.max(max, total);
+                max  = Math.max(max,total);
             }
-            System.out.print("#" + l + " ");
+            //결과 호출
+            System.out.print("#" + l +" ");
             System.out.println(max);
         }
     }
+
 }
