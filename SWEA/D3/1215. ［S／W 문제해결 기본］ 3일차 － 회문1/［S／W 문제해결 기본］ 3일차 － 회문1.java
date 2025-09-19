@@ -7,7 +7,7 @@ import java.util.*;
 public class Solution {
     static int k = 8;
     public static void main(String[] args) throws FileNotFoundException {
-       
+    
         Scanner sc = new Scanner(System.in);
 
         int T = 10;
@@ -19,31 +19,28 @@ public class Solution {
                 arr[i] = sc.next().toCharArray();
             }
 
-            //1.회문 찾기 (가로)
             for(int i = 0 ; i < k ; i ++){
-                for(int j = 0; j <= k -n ; j ++){
-                    char[] temp = new char[n];
-                    int index = 0;
-                    for(int z = j; z < j + n; z ++){
-                        temp[index++] = arr[i][z];
+                for(int j = 0 ; j < k ; j ++){
+                    if (i <= k-n){
+                        char []temp = new char[n];
+                        int index = 0;
+                        for(int z = i; z < i + n; z ++){
+                            temp[index++] = arr[z][j];
+                        }
+                        if (isCheck(temp)){
+                            ans ++;
+                        }
                     }
-                    //여기서 회문 체크
-                    if (isCheck(temp)){
-                        ans ++;
-                    }
-                }
-            }
 
-            for(int i = 0 ; i <= k-n ; i ++){
-                for(int j = 0; j < k  ; j ++){
-                    char[] temp = new char[n];
-                    int index = 0;
-                    for(int z = i; z < i + n; z ++){
-                        temp[index++] = arr[z][j];
-                    }
-                    //여기서 회문 체크
-                    if (isCheck(temp)){
-                        ans ++;
+                    if (j <= k-n){
+                        char []temp = new char[n];
+                        int index = 0;
+                        for(int z = j; z < j + n; z ++){
+                            temp[index++] = arr[i][z];
+                        }
+                        if (isCheck(temp)){
+                            ans ++;
+                        }
                     }
                 }
             }
