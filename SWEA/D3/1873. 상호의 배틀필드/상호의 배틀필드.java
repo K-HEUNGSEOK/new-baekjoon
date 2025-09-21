@@ -12,7 +12,7 @@ public class Solution {
     static char[][] arr;
 
     public static void main(String[] args) throws FileNotFoundException {
-     
+   
         Scanner sc = new Scanner(System.in);
         int T = sc.nextInt();
         for (int z = 1; z <= T; z++) {
@@ -68,95 +68,54 @@ public class Solution {
     }
 
     static void func(char command) {
+        if (command == 'S'){
+            shot();
+            return;
+        }
         int nx = 0;
         int ny = 0;
+        int move = 0;
         switch (command) {
             case 'U':
-                nx = x + dx[0];
-                ny = y + dy[0];
-                cur = direction[0];
-                if (isRange(nx, ny) && arr[nx][ny] == '.') {
-                    x = nx;
-                    y = ny;
-                }
-                break;
+                move = 0;break;
             case 'R':
-                nx = x + dx[1];
-                ny = y + dy[1];
-                cur = direction[1];
-                if (isRange(nx,ny) && arr[nx][ny] == '.'){
-                    x = nx;
-                    y = ny;
-                }
-                break;
+                move = 1;break;
             case 'D':
-                nx = x + dx[2];
-                ny = y + dy[2];
-                cur = direction[2];
-                if (isRange(nx,ny) && arr[nx][ny] == '.'){
-                    x = nx;
-                    y = ny;
-                }
-                break;
+                move = 2;break;
+
             case 'L':
-                nx = x + dx[3];
-                ny = y + dy[3];
-                cur = direction[3];
-                if (isRange(nx,ny) && arr[nx][ny] == '.'){
-                    x = nx;
-                    y = ny;
-                }
-                break;
-            case 'S':
-                char c = cur;
-                int cx = x;
-                int cy = y;
-                shot(c,cx,cy);
-                break;
+                move = 3;break;
+        }
+        cur = direction[move];
+        nx = x + dx[move];
+        ny = y + dy[move];
+        if (isRange(nx,ny) && arr[nx][ny] == '.'){
+            x = nx;
+            y = ny;
         }
     }
-    static void shot(char cur, int nx, int ny){
-        switch (cur){
-            case '>':
-                for(int i = ny; i < m; i ++){
-                    if (arr[nx][i] == '#' || arr[nx][i] == '*'){
-                        if (arr[nx][i] == '*') {
-                            arr[nx][i] = '.';
-                        }
-                        break;
-                    }
-                }
+    static void shot(){
+        int idx = 0;
+        for(int i = 0 ; i < 4; i ++){
+            if (cur == direction[i]){
+                idx = i;
                 break;
-            case 'v':
-                for(int i = nx; i < n; i ++){
-                    if (arr[i][ny] == '#' || arr[i][ny] == '*'){
-                        if (arr[i][ny] == '*') {
-                            arr[i][ny] = '.';
-                        }
-                        break;
-                    }
-                }
+            }
+        }
+
+        int nx = x;
+        int ny = y;
+        while (true){
+            nx += dx[idx];
+            ny += dy[idx];
+            if (!isRange(nx,ny)) break;
+
+            if (arr[nx][ny] == '*'){
+                arr[nx][ny] = '.';
                 break;
-            case '<':
-                for(int i = ny; i >= 0; i --){
-                    if (arr[nx][i] == '#' || arr[nx][i] == '*'){
-                        if (arr[nx][i] == '*') {
-                            arr[nx][i] = '.';
-                        }
-                        break;
-                    }
-                }
+            }else if(arr[nx][ny] == '#'){
                 break;
-            case '^':
-                for(int i = nx; i >= 0; i --){
-                    if (arr[i][ny] == '#' || arr[i][ny] == '*'){
-                        if (arr[i][ny] == '*') {
-                            arr[i][ny] = '.';
-                        }
-                        break;
-                    }
-                }
-                break;
+            }
         }
     }
 
