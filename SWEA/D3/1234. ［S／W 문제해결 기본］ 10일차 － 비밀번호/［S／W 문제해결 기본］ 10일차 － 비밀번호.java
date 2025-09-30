@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Solution {
     public static void main(String[] args) throws FileNotFoundException {
-      
+   
         Scanner sc = new Scanner(System.in);
         int T = 10;
         for (int z = 1; z <= T; z++) {
@@ -13,28 +13,21 @@ public class Solution {
             String[] split = r.split(" ");
             int n = Integer.parseInt(split[0]);
             String str = split[1];
-            List<Integer> list = new LinkedList<>();
+
+            Stack<Integer> stack = new Stack<>();
             for(int i = 0 ; i < n ; i ++){
-                char st = str.charAt(i);
-                list.add(Integer.parseInt(st+""));
-            }
+                int current = str.charAt(i) -'0';
 
-            while (true){
-                int len = list.size();
-                boolean flag = false;
-                for(int i = len-1 ; i > 0 ; i --){
-                    if (list.get(i) == list.get(i-1)){
-                        flag = true;
-                        list.remove(i);
-                        list.remove(i-1);
-                        break;
-                    }
+                if (!stack.isEmpty() && stack.peek() == current){
+                    stack.pop();
+                }else{
+                    stack.push(current);
                 }
-
-                if (!flag) break;
             }
+
+
             System.out.print("#" + z + " ");
-            for (Integer i : list) {
+            for (Integer i : stack) {
                 System.out.print(i);
             }
             System.out.println();
