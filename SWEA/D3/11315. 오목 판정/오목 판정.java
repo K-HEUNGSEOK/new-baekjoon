@@ -5,8 +5,10 @@ import java.util.*;
 
 public class Solution {
     static int n;
+    static int[] dx = {0,1,1,1};
+    static int[] dy = {1,0,1,-1};
     public static void main(String[] args) throws FileNotFoundException {
-       
+     
         Scanner sc = new Scanner(System.in);
         int T = sc.nextInt();
         for (int z = 1; z <= T; z++) {
@@ -17,10 +19,7 @@ public class Solution {
                 arr[i] = sc.next().toCharArray();
             }
 
-            if (check1(arr)){
-                flag = true;
-            }
-            if (check2(arr)){
+            if (check(arr)){
                 flag = true;
             }
 
@@ -30,81 +29,36 @@ public class Solution {
 
         }
     }
-
-    static boolean check2(char[][]arr){
+    static boolean check(char[][] arr){
         for(int i = 0 ; i < n ; i ++){
             for(int j = 0 ; j < n ; j ++){
-                int cnt = 1;
-                if (arr[i][j] == 'o'){
-                    for(int k = 0; k < n ; k ++){
-                        if (i + k + 1 < n && j + k + 1 < n && arr[i + k + 1][j + k + 1] == 'o'){
-                            cnt ++;
-                        }else break;
+
+                if (arr[i][j] != 'o') continue;
+
+                for(int k = 0 ; k < 4 ; k ++){
+                    int cnt= 1;
+                    int curX = i;
+                    int curY = j;
+
+                    for(int l = 0; l < 4; l ++){
+                        int nx = curX + dx[k];
+                        int ny = curY + dy[k];
+
+                        if (!isRange(nx,ny) || arr[nx][ny] != 'o') break;
+
+                        cnt ++;
+                        curX = nx;
+                        curY = ny;
                     }
+
                     if (cnt >= 5) return true;
                 }
             }
         }
-
-        for(int i = 0 ; i < n ; i ++){
-            for(int j = 0 ; j < n ; j ++){
-                int cnt = 1;
-                if (arr[i][j] == 'o'){
-                    for(int k = 0; k < n ; k ++){
-                        if (i + k + 1 < n && j - (k + 1) >= 0 && arr[i + k + 1][j - (k + 1)] == 'o'){
-                            cnt ++;
-                        }else{
-                            break;
-                        }
-                    }
-                    if (cnt >= 5) return true;
-                }
-            }
-        }
-
-
         return false;
     }
-
-
-    static boolean check1(char[][] arr){
-
-        //가로
-        for(int i = 0 ; i < n ; i ++){
-            for(int j = 0 ; j < n ; j ++){
-                int cnt = 1;
-                if (arr[i][j] == 'o'){
-                    for(int k = j + 1 ; k < n ; k ++){
-                        if (arr[i][k] == 'o'){
-                            cnt ++;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-                if (cnt >= 5){
-                    return true;
-                }
-            }
-        }
-
-        //세로
-        for(int i = 0 ; i < n ; i ++){
-            for(int j = 0 ; j < n ; j ++){
-                int cnt =1;
-                if (arr[j][i] == 'o'){
-                    for(int k = j + 1; k < n ; k ++){
-                        if (arr[k][i] == 'o'){
-                            cnt ++;
-                        }
-                        else {break;}
-                    }
-
-                    if (cnt >= 5) return true;
-                }
-            }
-        }
-        return false;
+    static boolean isRange(int x, int y){
+        return 0 <= x && x < n && 0 <= y && y < n;
     }
 }
 
