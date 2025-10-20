@@ -1,62 +1,53 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilterOutputStream;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Scanner;
 
 public class Solution {
-    static int k = 8;
-    public static void main(String[] args) throws FileNotFoundException {
-    
-        Scanner sc = new Scanner(System.in);
 
-        int T = 10;
-        for (int l = 1; l <= T; l++) {
-            int n = sc.nextInt(); //낱말 길이
-            char[][] arr = new char[k][k];
-            int ans = 0; //정답 갯수
-            for(int i = 0 ; i < k; i ++){
-                arr[i] = sc.next().toCharArray();
-            }
+  public static void main(String[] args) throws FileNotFoundException {
 
-            for(int i = 0 ; i < k ; i ++){
-                for(int j = 0 ; j < k ; j ++){
-                    if (i <= k-n){
-                        char []temp = new char[n];
-                        int index = 0;
-                        for(int z = i; z < i + n; z ++){
-                            temp[index++] = arr[z][j];
-                        }
-                        if (isCheck(temp)){
-                            ans ++;
-                        }
-                    }
+    Scanner sc = new Scanner(System.in);
+    int T = 10;
+    for (int z = 1; z <= T; z++) {
+      int n = sc.nextInt();
+      char[][] arr = new char[8][8];
+      for (int i = 0; i < 8; i++) {
+        arr[i] = sc.next().toCharArray();
+      }
+      int ans = 0;
 
-                    if (j <= k-n){
-                        char []temp = new char[n];
-                        int index = 0;
-                        for(int z = j; z < j + n; z ++){
-                            temp[index++] = arr[i][z];
-                        }
-                        if (isCheck(temp)){
-                            ans ++;
-                        }
-                    }
-                }
-            }
-
-
-
-            System.out.println("#" + l  +" " + ans);
+      for (int i = 0; i < 8; i++) {
+        for (int j = 0; j <= 8 - n; j++) {
+          StringBuilder sb = new StringBuilder();
+          for (int k = j; k < j + n; k++) {
+            sb.append(arr[i][k]);
+          }
+          if (check(sb.toString())) {
+            ans++;
+          }
         }
-    }
-    static boolean isCheck(char[] temp){
-        for(int i = 0 ; i < temp.length; i ++){
-            if (temp[i] != temp[temp.length-1-i]){
-                return false;
-            }
+      }
+      for (int i = 0; i < 8; i++) {
+        for (int j = 0; j <= 8 - n; j++) {
+          StringBuilder sb = new StringBuilder();
+          for (int k = j; k < j + n; k++) {
+            sb.append(arr[k][i]);
+          }
+          if (check(sb.toString())) {
+            ans++;
+          }
         }
-        return true;
+      }
+      System.out.println("#" + z + " " + ans);
     }
+  }
+
+  static boolean check(String str) {
+    for (int i = 0; i < str.length(); i++) {
+      if (str.charAt(i) != str.charAt(str.length() - 1 - i)) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
-
