@@ -1,75 +1,63 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilterOutputStream;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Scanner;
 
 public class Solution {
-    public static void main(String[] args) throws FileNotFoundException {
- 
-        Scanner sc = new Scanner(System.in);
-        int T = 10;
-        for (int z = 1; z <= T; z++) {
-            int b = sc.nextInt();
-            int n = 100;
-            char[][] arr = new char[n+1][n+1];
-            for (int i = 1; i <= n; i++) {
-                String line = sc.next();
-                for (int j = 1; j <= n; j++) {
-                    arr[i][j] = line.charAt(j - 1);
-                }
-            }
 
-            int ans = 1;
-            //가로 버전
-            for(int i = 1 ; i <= n ; i ++){
-                for(int j = 1 ; j <= n ; j ++){
-                    if (n - j + 1 <= ans) {
-                        break; // 안쪽 for문(j)을 탈출
-                    }
-                    List<Character> list = new ArrayList<>();
-                    for(int k  = j ; k <= n; k ++){
-                        list.add(arr[i][k]);
-                        //넣는 순간마다 점검해야함.
-                        boolean flag = true;
-                        for(int l = 0 ; l < list.size(); l ++){
-                            if (list.get(l) != list.get(list.size()-1-l)){
-                                flag = false;
-                                break;
-                            }
-                        }
-                        if (flag){
-                            ans = Math.max(ans,list.size());
-                        }
-                    }
-                }
-            }
+  static int n = 100;
 
+  public static void main(String[] args) throws FileNotFoundException {
 
-            for(int i = 1 ; i <= n ; i ++){
-                for(int j = 1 ; j <= n ; j ++){
-                    if (n - j + 1 <= ans) {
-                        break; // 안쪽 for문(j)을 탈출
-                    }
-                    List<Character> list = new ArrayList<>();
-                    for(int k  = j ; k <= n; k ++){
-                        list.add(arr[k][i]);
-                        //넣는 순간마다 점검해야함.
-                        boolean flag = true;
-                        for(int l = 0 ; l < list.size(); l ++){
-                            if (list.get(l) != list.get(list.size()-1-l)){
-                                flag = false;
-                                break;
-                            }
-                        }
-                        if (flag){
-                            ans = Math.max(ans,list.size());
-                        }
-                    }
-                }
+    Scanner sc = new Scanner(System.in);
+    int T = 10;
+    for (int z = 1; z <= T; z++) {
+      int trash = sc.nextInt();
+      char[][] arr = new char[n][n];
+      for (int i = 0; i < n; i++) {
+        arr[i] = sc.next().toCharArray();
+      }
+      int ans = 1;
+      //1. 슬라이딩 윈도우 + 투포인터로 해야대나
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(arr[i][j]);
+          for (int k = j + 1; k < n; k++) {
+            sb.append(arr[i][k]);
+            if (check(sb.toString()) > ans) {
+              ans = check(sb.toString());
             }
-            System.out.println("#" + b + " " + ans);
+          }
         }
+      }
+
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(arr[j][i]);
+          for (int k = j + 1; k < n; k++) {
+            sb.append(arr[k][i]);
+            if (check(sb.toString()) > ans) {
+              ans = check(sb.toString());
+            }
+          }
+        }
+      }
+
+      System.out.println("#" + trash + " " + ans);
     }
+  }
+
+  static int check(String str) {
+    int ans = 0;
+    for (int i = 0; i < str.length(); i++) {
+      if (str.charAt(i) != str.charAt(str.length() - 1 - i)) {
+        return -1;
+      } else {
+        ans++;
+      }
+    }
+    return ans;
+  }
 }
 
