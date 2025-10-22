@@ -1,67 +1,77 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
-import java.util.*;
+import java.util.StringTokenizer;
 
 public class Solution {
-    static String[] arr = {"ZRO", "ONE", "TWO", "THR", "FOR", "FIV", "SIX", "SVN", "EGT", "NIN"};
-    public static void main(String[] args) throws FileNotFoundException {
-    
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
-        sc.nextLine();
-        for(int z = 1 ; z<= T;  z++){
-            String first = sc.nextLine();
-            String[] command = first.split(" ");
 
-            int n = Integer.parseInt(command[1]);
+  public static void main(String[] args) throws FileNotFoundException {
 
-            String str = sc.nextLine();
-            StringTokenizer st = new StringTokenizer(str);
-            Test[] test = new Test[n];
-            for(int i = 0 ; i < n ; i ++){
-                test[i] = new Test(st.nextToken());
-            }
+    Scanner sc = new Scanner(System.in);
+    int T = sc.nextInt();
+    sc.nextLine();
+    for (int z = 1; z <= T; z++) {
+      StringTokenizer st = new StringTokenizer(sc.nextLine());
 
-            Arrays.sort(test);
+      String s = st.nextToken();
+      int n = Integer.parseInt(st.nextToken());
+      Num[] arr = new Num[n];
+      for (int i = 0; i < n; i++) {
+        arr[i] = new Num(sc.next());
+        arr[i].num = getNumber(arr[i].name);
+      }
+      sc.nextLine();
 
-            System.out.println("#" + z + " ");
-            for(Test t : test){
-                System.out.print(t.name + " ");
-            }
-            System.out.println();
-        }
+      Arrays.sort(arr);
+      System.out.println("#" + z);
+      for (Num num : arr) {
+        System.out.print(num.name + " ");
+      }
+      System.out.println();
+
     }
-    static class Test implements Comparable<Test>{
-        String name;
-        int index;
-        public Test(String name){
-            this.name = name;
-            this.index = getIndex(name);
-        }
+  }
 
-        public int getIndex(String name){
-            for(int i = 0 ; i < arr.length ; i ++){
-                if(arr[i].equals(name)){
-                    return i;
-                }
-            }
-            return -1;
-        }
-        @Override
-        public int compareTo(Test o){
-            return this.index - o.index;
-        }
+  static class Num implements Comparable<Num> {
 
+    String name;
+    int num;
 
-        @Override
-        public String toString() {
-            return "Test{" +
-                    "name='" + name + '\'' +
-                    ", index=" + index +
-                    '}';
-        }
+    public Num(String name) {
+      this.name = name;
     }
+
+    @Override
+    public int compareTo(Num o) {
+      return this.num - o.num;
+    }
+  }
+
+  static int getNumber(String name) {
+    switch (name) {
+      case "ZRO":
+        return 0;
+      case "ONE":
+        return 1;
+      case "TWO":
+        return 2;
+      case "THR":
+        return 3;
+      case "FOR":
+        return 4;
+      case "FIV":
+        return 5;
+      case "SIX":
+        return 6;
+      case "SVN":
+        return 7;
+      case "EGT":
+        return 8;
+      case "NIN":
+        return 9;
+    }
+    return 1;
+  }
 }
-
 
