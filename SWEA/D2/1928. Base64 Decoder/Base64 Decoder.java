@@ -1,40 +1,40 @@
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Scanner;
 
 public class Solution {
-    static StringBuilder sb;
+	public static void main(String args[]) throws Exception {
+	
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		String s = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+		char[] alphabet = s.toCharArray();
+		// 1. 표1을 보고 입력받은 문자들을 각각 대응하는 숫자로 변경한다.
+		// 2. 각 숫자들을 6자리 이진수로 표현하고, 이 이진수들을 한 줄로 쭉 이어 붙인다.
+		// 3. 한 줄로 쭉 이어붙인 이진수들을 8자리씩 끊어서 십진수로 바꾼다.
+		// 4. 각각의 십진수를 아스키 코드로 변환한다.
 
-    public static void main(String[] args) throws FileNotFoundException {
-      
-        Scanner sc = new Scanner(System.in);
-        String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        char[] alphabet = str.toCharArray();
+		for (int z = 1; z <= T; z++) {
+			String str = sc.next();
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < str.length(); i++) {
+				char temp = str.charAt(i);
 
-        int T = sc.nextInt();
-        for(int z = 1; z <= T; z ++){
-            char[] target = sc.next().toCharArray();
-            //1.그 숫자들을 다 2진수로 바꿔라
-            //2.2진수로 바꾼애들을 8개씩 짤라서 10진수로 바꿔서 변환해라
-            sb = new StringBuilder();
-            for (char c : target) {
-                for(int i = 0 ; i < alphabet.length; i ++){
-                    if (alphabet[i] == c){
-                        //이때 꼭 6자리가 될 수 있게 채워줘야 한다.
-                        String binaryString = Integer.toBinaryString(i);
-                        String finalString = String.format("%6s", binaryString).replace(' ', '0');
-                        sb.append(finalString);
-                    }
-                }
-            }
-            //2진수 다 넣었으면 이제 8자리씩 10진수로 변환
-            System.out.print("#" + z  + " ");
-            String ans = sb.toString();
-            for(int i = 0 ; i < ans.length(); i +=8){
-                String temp = ans.substring(i, i+8);
-                System.out.print((char)Integer.parseInt(temp,2));
-            }
-            System.out.println();
-        }
-    }
+				for (int j = 0; j < alphabet.length; j++) {
+					if (temp == alphabet[j]) {
+						String binary = Integer.toBinaryString(j);
+						String format = String.format("%6s", binary).replace(" ", "0");
+						sb.append(format);
+					}
+				}
+			}
+			String temp = sb.toString();
+			System.out.print("#" + z + " ");
+			for(int i = 0 ; i < sb.length(); i +=8) {
+				String slice = temp.substring(i,i+8);
+				System.out.print((char)Integer.parseInt(slice,2));
+			}
+			System.out.println();
+		}
+	}
 }
