@@ -1,38 +1,41 @@
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.util.Iterator;
 import java.util.Scanner;
-import java.util.*;
 
 public class Solution {
-    public static void main(String[] args) throws FileNotFoundException {
-    
-        Scanner sc = new Scanner(System.in);
+	static char[] arr = {'3','6','9'};
+	public static void main(String args[]) throws Exception {
+		
+		Scanner sc = new Scanner(System.in);
+	
 
-            int n = sc.nextInt();
-            StringBuilder sb = new StringBuilder();
-            for(int i = 1; i <= n ; i ++){
-                int cnt = check(i);
-                if(cnt == 0){
-                    sb.append(i).append(" ");
-                }else{
-                    for(int j = 0 ; j < cnt; j ++){
-                        sb.append("-");
-                    }
-                    sb.append(" ");
-                }
-            }
-            System.out.println(sb.toString());
-
-    }
-    static int check(int n){
-        int cnt = 0;
-        char[] a  = (n +"").toCharArray();
-
-        for(char x : a){
-            if(x == '3' || x == '6' || x == '9') cnt ++;
-        }
-        return cnt;
-    }
+		
+			int n = sc.nextInt();
+			
+		
+			for(int i = 1; i <= n; i ++) {
+				char[] str = (i +"").toCharArray();
+				int cnt = 0;
+				for(int j = 0 ; j <str.length; j ++) {
+					char temp = str[j];
+					
+					for(int k = 0 ; k < 3; k ++) {
+						if(temp == arr[k]) {
+							cnt ++;
+						}
+					}
+				
+				}
+				
+				if(cnt == 0) {
+					System.out.print(i + " ");
+				}else {
+					for(int j = 0 ; j < cnt ; j ++) {
+						System.out.print("-");
+					}
+					System.out.print(" ");
+				}
+			}
+		
+	}
 }
-
-
