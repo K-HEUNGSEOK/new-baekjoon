@@ -1,27 +1,26 @@
+
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilterOutputStream;
 import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Solution {
-    public static void main(String[] args) throws FileNotFoundException {
-  
-        Scanner sc = new Scanner(System.in);
+	static int ans;
+	public static void main(String[] args) throws FileNotFoundException {
 
-        //기본 세팅
-        int T = sc.nextInt();
-        for (int l = 1; l <= T; l++) {
-            int ans = 1;
-            int n = sc.nextInt();
-            for(int i = 2; i <= n ; i ++){
-                if (i % 2 == 0){
-                    ans -= i;
-                }else{
-                    ans += i;
-                }
-            }
-            System.out.println("#" + l + " " + ans);
-        }
-    }
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		
+		for(int z = 1; z <= T; z ++) {
+			int n = sc.nextInt();
+			int total = 0;
+			
+			total = IntStream.rangeClosed(1, n).map(i -> i % 2 == 0 ? -i : i).sum();
+			
+			System.out.println("#" + z + " " + total);
+		}
+	}
+	
 }
-
