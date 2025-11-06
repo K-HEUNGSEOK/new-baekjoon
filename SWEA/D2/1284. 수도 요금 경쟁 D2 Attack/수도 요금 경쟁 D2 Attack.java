@@ -1,37 +1,35 @@
+
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilterOutputStream;
 import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Solution {
-    public static void main(String[] args) throws FileNotFoundException {
-   
-        Scanner sc = new Scanner(System.in);
+	static int speed;
+	public static void main(String[] args) throws FileNotFoundException {
 
-        //기본 세팅
-        int T = sc.nextInt();
-        for (int l = 1; l <= T; l++) {
-            //코드 입력
-            int P = sc.nextInt(); //1리터당 가격 A
-            int Q = sc.nextInt(); //기본요금 B
-            int R = sc.nextInt(); //이거 이하면 Q, 이상이면 Q + S
-            int S = sc.nextInt(); //초과요금 1리터당 B
-            int W = sc.nextInt(); //내가 쓴 요금
-
-            int a = W * P;
-            int b = 0;
-            if (W <= R){
-                b = Q;
-            }else{
-                int temp = W - R;
-                b = temp * S + Q;
-            }
-
-            int num = Math.min(a,b);
-            System.out.println("#" + l + " " + num);
-        }
-
-
-    }
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		for(int z = 1 ; z<= T; z++) {
+			//1. a는 그가격 그대로
+			//2. b는 R 이하면 Q(기본요금) 초과하면 1리터당 Q + S
+			//P(1리터당) Q (기본요금) R(R이하면 기본요금) S (초과하면 S만큼) W (내가쓴양) 순으로 
+			int p = sc.nextInt();
+			int q = sc.nextInt();
+			int r = sc.nextInt();
+			int s = sc.nextInt();
+			int w = sc.nextInt();
+			
+			int totalA = p * w;
+			int totalB = q;
+			if(w > r) {
+				int temp = w -= r;
+				totalB = s * temp + q;
+			}
+			
+			System.out.println("#"+z+" " +(Math.min(totalA, totalB)));
+		}
+	}
 }
-
