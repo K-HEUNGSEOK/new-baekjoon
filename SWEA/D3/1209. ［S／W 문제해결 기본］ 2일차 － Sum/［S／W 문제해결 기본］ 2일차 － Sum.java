@@ -1,50 +1,57 @@
+
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Solution {
+	public static void main(String[] args) throws FileNotFoundException {
 
-  static int n = 100;
-
-  public static void main(String[] args) throws FileNotFoundException {
-
-    Scanner sc = new Scanner(System.in);
-    int T = 10;
-    for (int z = 1; z <= T; z++) {
-      int trash = sc.nextInt();
-      int[][] arr = new int[n][n];
-      for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-          arr[i][j] = sc.nextInt();
-        }
-      }
-
-      int a = 0; //가로
-      int b = 0; //세로
-      int c = 0; //정대각
-      int d = 0; //역대각
-      for (int i = 0; i < n; i++) {
-        int sumA = 0;
-        int sumB = 0;
-        for (int j = 0; j < n; j++) {
-          sumA += arr[i][j];
-          sumB += arr[j][i];
-        }
-        a = Math.max(a, sumA);
-        b = Math.max(b, sumB);
-      }
-
-      for (int i = 0; i < 100; i++) {
-        c += arr[i][i];
-      }
-      for (int i = 0; i < 100; i++) {
-        d += arr[i][99 - i];
-      }
-      int ans = Math.max(a, b);
-      ans = Math.max(ans, c);
-      ans = Math.max(ans, d);
-      System.out.println("#" + z + " " + ans);
-    }
-  }
-
+		Scanner sc = new Scanner(System.in);
+		int T = 10;
+		for (int z = 1; z <= T; z++) {
+			int index = sc.nextInt();
+			int n = 100;
+			int[][] arr = new int[n][n];
+			int ans = 0;
+			
+			
+			for(int i = 0 ; i < n ; i++) {
+				for(int j = 0 ; j < n ; j ++) {
+					arr[i][j] = sc.nextInt();
+				}
+			}
+			//1.가로
+			for(int i = 0 ; i < n ; i++) {
+				int total = 0;
+				for(int j = 0 ; j < n ; j++) {
+					total += arr[i][j];
+				}
+				ans = Math.max(ans, total);
+			}
+			//2.세로
+			for(int i = 0 ; i < n ; i++) {
+				int total = 0;
+				for(int j = 0 ; j < n ; j++) {
+					total += arr[j][i];
+				}
+				ans = Math.max(ans, total);
+			}
+			//3.대각선
+			int totalA = 0;
+			for(int i = 0 ; i < n ; i++) {
+				totalA += arr[i][i];
+			}
+			ans = Math.max(ans, totalA);
+			//4.역대각선
+			int totalB = 0;
+			for(int i = 0 ; i < n ;i ++) {
+				totalB += arr[i][n-1-i];
+			}
+			ans = Math.max(ans, totalB);
+			System.out.println("#" + index + " " + ans);
+		}
+	}
 }
