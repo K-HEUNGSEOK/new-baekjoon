@@ -1,51 +1,38 @@
+
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilterOutputStream;
-import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Solution {
-    static int[] num = new int[50];
-    static int cnt = 1;
-    public static void main(String[] args) throws FileNotFoundException {
-  
-        Scanner sc = new Scanner(System.in);
-        //기본 세팅
-        for(int i = 3; i <= 49; i += 2){
-            num[i] = cnt ++;
-        }
-        int T = sc.nextInt();
-        for (int l = 1; l <= T; l++) {
-            int n = sc.nextInt();
-            if (n == 1){
-                System.out.println("#" + l  +" " + sc.next());
-                continue;
-            }
-            //인덱스 미리 저장해놓기 (3 은 1 5 는 2 이런식임)
+	static int n;
+	public static void main(String[] args) throws FileNotFoundException {
 
-            int [][] arr = new int[n][n];
-            for(int i = 0 ; i < n ; i ++){
-                String str = sc.next();
-                for(int j = 0 ; j < n ; j ++){
-                    arr[i][j] = str.charAt(j) -'0';
-                }
-            }
-            int ans = 0;
-            int middle = n / 2;
-            for(int i = 0 ; i < n ; i ++){
-                for(int j = 0 ; j < n ; j ++){
-                    if (isCheck(i,j,middle,middle,num[n])){
-                        ans += arr[i][j];
-                    }
-                }
-            }
-
-            System.out.println("#" + l  +" " + ans);
-        }
-    }
-    static boolean isCheck(int x, int y, int middleX, int middleY, int number){
-        int total = Math.abs(x - middleX) + Math.abs(y - middleY);
-        return number >= total;
-    }
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		for (int z = 1; z <= T; z++) {
+			n = sc.nextInt();
+			char[][] temp = new char[n][n];
+			for (int i = 0; i < n; i++) {
+				temp[i] = sc.next().toCharArray();
+			}
+			int sum = 0;
+			int x = n / 2;
+			int y = n / 2;
+	
+			for(int i = 0 ; i < n ; i++) {
+				for(int j = 0 ; j < n ; j++) {
+					if(isCheck(i,j,x,y)) {
+						sum += (temp[i][j] -'0');
+					}
+				}
+			}
+			System.out.println("#"+z+ " " + sum);
+		}
+	}
+	static boolean isCheck(int x1, int y1, int x2, int y2) {
+		return Math.abs(x1 -x2) + Math.abs(y1-y2) <= n/2;
+	}
 }
-
