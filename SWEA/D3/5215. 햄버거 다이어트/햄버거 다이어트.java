@@ -1,60 +1,45 @@
+
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilterOutputStream;
-import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Solution {
-    static int n,L,ans,cnt;
-    static Food[] foods;
-    public static void main(String[] args) throws FileNotFoundException {
-     
-        Scanner sc = new Scanner(System.in);
-        //기본 세팅
-        int T = sc.nextInt();
-        for (int l = 1; l <= T; l++) {
-             n = sc.nextInt();
-             L = sc.nextInt(); //칼로리
-             foods = new Food[n];
-            for(int i = 0 ; i < n ; i ++){
-                int num= sc.nextInt();
-                int score = sc.nextInt();
-                foods[i] = new Food(num,score);
-            }
-            Arrays.sort(foods);
-             ans = 0; //칼로리
-             cnt = 0; //인기점수
-            DFS(0,0,0);
-            System.out.println("#" + l  +" " +  cnt);
-        }
-    }
-    static void DFS(int v, int total, int number){
-        if (total > L) return;
-        if (v == n){
-            if (cnt >= number) return; //인기점수가 기본보다 작으면 끝
-            ans = total;
-            cnt = number;
-            return;
-        }else{
-            DFS(v + 1 , total + foods[v].score, number + foods[v].num);
-            DFS(v + 1 , total, number);
-        }
-    }
-    static class Food implements Comparable<Food>{
-        int num, score;
-
-        public Food(int num, int score) {
-            this.num = num;
-            this.score = score;
-        }
-        //오름차순 정렬
-        @Override
-        public int compareTo(Food o){
-            if (this.score == o.score){
-                return o.num - this.num;
-            }
-            return this.score - o.score;
-        }
-    }
+	static int[] cal;
+	static int[] flavor;
+	static int ans, limit,n;
+	public static void main(String[] args) throws FileNotFoundException {
+	
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		for (int z = 1; z <= T; z++) {
+			n = sc.nextInt();
+			limit = sc.nextInt();
+			ans = 0;
+			cal = new int[n];
+			flavor = new int[n];
+			
+			for(int i = 0 ; i < n ; i++) {
+				flavor[i] = sc.nextInt();
+				cal[i] = sc.nextInt();
+			}
+			
+			//limit 를 넘지 않으면서 맛의 점수가 가장 높은 것 
+			DFS(0,0,0); //index, 맛의 점수, 칼로리 
+			System.out.println("#" + z + " " +ans);
+		}
+	}
+	static void DFS(int v, int num, int c) {
+		if(c > limit) return;
+		if(v == n) {
+			if(ans > num) return;
+			ans = Math.max(ans, num);
+			
+		}else {
+			DFS(v+1, num + flavor[v], c + cal[v]);
+			DFS(v+1, num, c);
+		}
+	}
 }
-
